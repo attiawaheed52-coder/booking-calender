@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Initial Test User",
+    "email": "test@example.com",
+    "date": "2025-11-19",
+    "time": "1:00 PM",
+    "status": "Booked"
+  }
+]

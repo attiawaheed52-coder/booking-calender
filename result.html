@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Result</title>
+    <style>
+        body { 
+            font-family: sans-serif;
+             padding: 40px;
+              background: #fcfcfc; }
+        .card {
+             background: white;
+              padding: 20px;
+               border: 1px solid #ddd;
+                border-radius: 8px;
+                 max-width: 800px;
+                  margin: auto; }
+        table {
+             width: 100%;
+              border-collapse: collapse;
+               margin-top: 20px; }
+        th, td { 
+            padding: 12px; 
+            border: 1px solid #eee; 
+            text-align: left; }
+        th {
+             background: #5a8dee;
+              color: white; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Your Booking Details</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="resultTable"></tbody>
+    </table>
+
+    <br>
+    <a href="index.html" style="color:#5a8dee; text-decoration:none;">← Back to Home</a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    let activeEmail = localStorage.getItem("userEmail");
+    let allData = JSON.parse(localStorage.getItem("bookings")) || [];
+    let tableBody = document.getElementById("resultTable");
+
+    // If no email stored
+    if(!activeEmail){
+        tableBody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No user selected.</td></tr>";
+        return;
+    }
+
+    // Filter user data
+    let userResults = allData.filter(function(item){
+        return item.email === activeEmail;
+    });
+
+    //  No data found
+    if (userResults.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No records found.</td></tr>";
+        return;
+    }
+
+    // Show latest first (important)
+    userResults.reverse().forEach(function(item){
+
+        let row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.email}</td>
+            <td>${item.date}</td>
+            <td>${item.time}</td>
+            <td><b>${item.status}</b></td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+
+});
+</script>
+
+</body>
+</html>
